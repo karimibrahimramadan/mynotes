@@ -33,78 +33,73 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
-      ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
+        title: const Text(
+          'Register',
         ),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          switch (snapshot.connectionState) {
-
-            case ConnectionState.done:
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-                      FirebaseAuth _auth = FirebaseAuth.instance;
-                      try {
-                        final userCredential =
-                        await _auth.createUserWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                        );
-                      } on FirebaseException catch (e) {
-                        if (e.code == 'email-already-in-use') {
-                          print('Email is already in use');
-                        } else if (e.code == 'invalid-email') {
-                          print('Invalid email');
-                        } else if (e.code == 'weak-password') {
-                          print('Password must be at least 6 characters');
-                        } else {
-                          print(e.code);
-                        }
-                      }
-                    },
-                    child: const Text(
-                      'Register',
-                    ),
-                  ),
-                ],
-              );
-
-            default:
-              return const Text('Loading...');
-          }
-
-
-        },
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              hintText: 'Enter your email',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+          TextField(
+            controller: _passwordController,
+            obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(
+              hintText: 'Enter your password',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              final email = _emailController.text;
+              final password = _passwordController.text;
+              FirebaseAuth _auth = FirebaseAuth.instance;
+              try {
+                final userCredential =
+                    await _auth.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+              } on FirebaseException catch (e) {
+                if (e.code == 'email-already-in-use') {
+                  print('Email is already in use');
+                } else if (e.code == 'invalid-email') {
+                  print('Invalid email');
+                } else if (e.code == 'weak-password') {
+                  print('Password must be at least 6 characters');
+                } else {
+                  print(e.code);
+                }
+              }
+            },
+            child: const Text(
+              'Register',
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/login', (route) => false);
+            },
+            child: const Text(
+              'Already registered? Login here!',
+            ),
+          ),
+        ],
       ),
     );
   }
