@@ -32,7 +32,9 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login',),
+        title: const Text(
+          'Login',
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +72,10 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
-                print('Logged in successfully');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes',
+                  (route) => false,
+                );
               } on FirebaseException catch (e) {
                 if (e.code == 'invalid-email') {
                   print('Invalid email');
@@ -89,7 +94,8 @@ class _LoginViewState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil('/register', (route) => false);
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/register', (route) => false);
             },
             child: const Text(
               'Not registered yet? Register here!',
