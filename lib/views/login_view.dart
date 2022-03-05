@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../constants/routes.dart';
-import '../firebase_options.dart';
 import '../utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -101,7 +100,10 @@ class _LoginViewState extends State<LoginView> {
                   );
                 }
               } catch (e) {
-                await showErrorDialog(context, 'Error: ${e.toString()}',);
+                await showErrorDialog(
+                  context,
+                  'Error: ${e.toString()}',
+                );
               }
             },
             child: const Text(
